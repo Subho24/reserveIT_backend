@@ -1,7 +1,5 @@
 const express = require('express');
 const dbHandler = require('../dbHandler');
-const verifyJWT = require('../middleware/verifyJwt');
-
 
 const router = express.Router();
 require('dotenv').config();
@@ -10,12 +8,33 @@ require('dotenv').config();
 router.use(express.json());
 
 
-// Get all data from compnaies table http://localhost:4000/api/companies
+// Get all data from bookings table http://localhost:4000/api/bookings
 router.get('/:company_id', async (req, res) => {
     const db = await dbHandler.createConnectionAsync();
 
     try {
-        const query = `Select * from companies where company_id = ${req.params.company_id}`;
+        const query = req.query.custom ? `Select * from bookings Where company_id = ${req.params.company_id} and ${req.query.custom} = ${req.query.for} Order by booking_date, booking_time` 
+        : `Select * from bookings Where company_id = ${req.params.company_id} Order by booking_date`;
+        console.log(await dbHandler.connectAsync(db))
+        console.log(query);
+        const data = await dbHandler.queryAsync(db, query);
+        res.status(200).json(data);
+        console.log(await dbHandler.disconnectAsync(db));
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).json({
+            "message": 'Internal Server Error!!'
+        })
+        console.log(await dbHandler.disconnectAsync(db));
+    }
+})
+
+//Post data to bookings table http://localhost:4000/api/bookings
+router.post('/', async (req, res) => {
+    const db = await dbHandler.createConnectionAsync();
+
+    try {
+        const query = await dbHandler.createPostQuery(req.body, 'bookings');
         console.log(await dbHandler.connectAsync(db))
         const data = await dbHandler.queryAsync(db, query);
         res.status(200).json(data);
@@ -29,32 +48,12 @@ router.get('/:company_id', async (req, res) => {
     }
 })
 
-//Post data to companies table http://localhost:4000/api/companies
-router.post('/', verifyJWT, async (req, res) => {
+//Update data in bookings table http://localhost:4000/api/bookings
+router.patch('/:company_id', async (req, res) => {
     const db = await dbHandler.createConnectionAsync();
 
     try {
-        const query = await dbHandler.createPostQuery(req.body, 'companies');
-        console.log(await dbHandler.connectAsync(db))
-        const data = await dbHandler.queryAsync(db, query);
-        res.status(200).json(data);
-        console.log(await dbHandler.disconnectAsync(db));
-    } catch (error) {
-        console.log(error.message)
-        res.status(500).json({
-            "message": 'Internal Server Error!!'
-        })
-        console.log(await dbHandler.disconnectAsync(db));
-    }
-})
-
-//Update data in companies table http://localhost:4000/api/companies
-router.patch('/:company_id', verifyJWT, async (req, res) => {
-    const db = await dbHandler.createConnectionAsync();
-
-    try {
-        const query = await dbHandler.createUpdateQuery(req.body, 'companies', 'company_id', req.params.company_id);
-        console.log(query)
+        const query = await dbHandler.createUpdateQuery(req.body, 'bookings', 'company_id', req.params.company_id);
         console.log(await dbHandler.connectAsync(db))
         const data = await dbHandler.queryAsync(db, query);
         res.status(200).json(data);
@@ -69,11 +68,11 @@ router.patch('/:company_id', verifyJWT, async (req, res) => {
 })
 
 
-router.delete('/:company_id', verifyJWT, async (req, res) => {
+router.delete('/:company_id', async (req, res) => {
     const db = await dbHandler.createConnectionAsync();
 
     try {
-        const query = `DELETE FROM companies WHERE company_id = ${req.params.company_id}`;
+        const query = `DELETE FROM bookings WHERE company_id = ${req.params.company_id}`;
         console.log(await dbHandler.connectAsync(db))
         const data = await dbHandler.queryAsync(db, query);
         await dbHandler.queryAsync(db, `ALTER TABLE companies AUTO_INCREMENT=${req.params.company_id}`)

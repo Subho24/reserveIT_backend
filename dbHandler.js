@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+const bcrypt = require('bcrypt');
 
 async function createConnectionAsync() {
     return new Promise((resolve, reject) => {
@@ -77,11 +78,21 @@ async function createUpdateQuery(body, table, rowID, IdValue) {
     })
 }
 
+async function hashPass(password, saltrounds) {
+    return new Promise((resolve, reject) => {
+        bcrypt.hash(password, saltrounds, (err, hash) => {
+            if (err) reject(err);
+            resolve(hash);
+        });
+    });
+}
+
 module.exports = {
     createConnectionAsync,
     connectAsync,
     disconnectAsync,
     queryAsync, 
     createPostQuery,
-    createUpdateQuery
+    createUpdateQuery,
+    hashPass
 }
