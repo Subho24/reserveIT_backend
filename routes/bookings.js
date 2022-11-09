@@ -1,5 +1,6 @@
 const express = require('express');
 const dbHandler = require('../dbHandler');
+const verifyJWT = require('../middleware/verifyJwt');
 
 const router = express.Router();
 require('dotenv').config();
@@ -9,8 +10,12 @@ router.use(express.json());
 
 
 // Get all data from bookings table http://localhost:4000/api/bookings
-router.get('/:company_id', async (req, res) => {
+router.get('/:company_id', verifyJWT, async (req, res) => {
     const db = await dbHandler.createConnectionAsync();
+
+    if(req.body.companyId !== parseInt(req.params.company_id)) {
+        return res.status(403).json({message: 'Not authorized'});
+    }
 
     try {
         const query = req.query.custom ? `Select * from bookings Where company_id = ${req.params.company_id} and ${req.query.custom} = ${req.query.for} Order by booking_date, booking_time` 
