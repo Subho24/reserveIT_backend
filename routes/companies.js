@@ -13,6 +13,7 @@ router.use(express.json());
 // Get all data from compnaies table http://localhost:4000/api/companies
 router.get('/:company_id', async (req, res) => {
     const db = await dbHandler.createConnectionAsync();
+    console.log(db)
 
     try {
         const query = `Select * from companies where company_id = ${req.params.company_id}`;
