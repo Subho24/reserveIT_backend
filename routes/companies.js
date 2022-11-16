@@ -21,6 +21,7 @@ router.get('/:company_id', async (req, res) => {
         res.status(200).json(data);
         console.log(await dbHandler.disconnectAsync(db));
     } catch (error) {
+        console.log(error)
         console.log(error.message)
         res.status(500).json({
             "message": 'Internal Server Error!!'
