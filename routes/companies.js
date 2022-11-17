@@ -13,13 +13,35 @@ router.use(express.json());
 // Get all data from compnaies table http://localhost:4000/api/companies
 router.get('/:company_id', async (req, res) => {
     const db = await dbHandler.createConnectionAsync();
-    console.log(db)
 
     try {
         const query = `Select * from companies where company_id = ${req.params.company_id}`;
         console.log(await dbHandler.connectAsync(db))
         const data = await dbHandler.queryAsync(db, query);
         res.status(200).json(data);
+        console.log(await dbHandler.disconnectAsync(db));
+    } catch (error) {
+        console.log(error)
+        console.log(error.message)
+        res.status(500).json({
+            "message": 'Internal Server Error!!'
+        })
+        console.log(await dbHandler.disconnectAsync(db));
+    }
+})
+
+router.get('/companyBookingInfo/:company_id', async (req, res) => {
+    const db = await dbHandler.createConnectionAsync();
+
+    try {
+        const query = `Select * from companies where company_id = ${req.params.company_id}; Select * from booking_instructions where company_id = ${req.params.company_id}`;
+        console.log(await dbHandler.connectAsync(db))
+        const data = await dbHandler.queryAsync(db, query);
+        const organisedData = {
+            companyInfo: data[0][0],
+            bookingInfo: data[1]
+        }
+        res.status(200).json(organisedData);
         console.log(await dbHandler.disconnectAsync(db));
     } catch (error) {
         console.log(error)
