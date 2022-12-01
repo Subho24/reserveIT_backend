@@ -13,8 +13,8 @@ router.get('/:company_id', async (req, res) => {
     const db = await dbHandler.createConnectionAsync();
 
     try {
-        const query = req.query.custom ? `Select ${req.query.custom} from booking_instructions Where company_id = ${req.params.company_id}` 
-        : `Select * from booking_instructions Where company_id = ${req.params.company_id}`;
+        const query = req.query.custom ? `Select ${req.query.custom} from booking_instructions Where company_id = '${req.params.company_id}'` 
+        : `Select * from booking_instructions Where company_id = '${req.params.company_id}'`;
         console.log(await dbHandler.connectAsync(db))
         const data = await dbHandler.queryAsync(db, query);
         res.status(200).json(data);
@@ -71,10 +71,10 @@ router.delete('/:company_id', async (req, res) => {
     const db = await dbHandler.createConnectionAsync();
 
     try {
-        const query = `DELETE FROM booking_instructions WHERE company_id = ${req.params.company_id}`;
+        const query = `DELETE FROM booking_instructions WHERE company_id = '${req.params.company_id}'`;
         console.log(await dbHandler.connectAsync(db))
         const data = await dbHandler.queryAsync(db, query);
-        await dbHandler.queryAsync(db, `ALTER TABLE companies AUTO_INCREMENT=${req.params.company_id}`)
+        await dbHandler.queryAsync(db, `ALTER TABLE companies AUTO_INCREMENT='${req.params.company_id}'`)
         res.status(200).json(data);
         console.log(await dbHandler.disconnectAsync(db));
     } catch (error) {

@@ -15,7 +15,7 @@ router.get('/:company_id', async (req, res) => {
     const db = await dbHandler.createConnectionAsync();
 
     try {
-        const query = `Select * from companies where company_id = ${req.params.company_id}`;
+        const query = `Select * from companies where company_id = "${req.params.company_id}"`;
         console.log(await dbHandler.connectAsync(db))
         const data = await dbHandler.queryAsync(db, query);
         res.status(200).json(data);
@@ -34,7 +34,7 @@ router.get('/companyBookingInfo/:company_id', async (req, res) => {
     const db = await dbHandler.createConnectionAsync();
 
     try {
-        const query = `Select * from companies where company_id = ${req.params.company_id}; Select * from booking_instructions where company_id = ${req.params.company_id}`;
+        const query = `Select * from companies where company_id = '${req.params.company_id}'; Select * from booking_instructions where company_id = '${req.params.company_id}'`;
         console.log(await dbHandler.connectAsync(db))
         const data = await dbHandler.queryAsync(db, query);
         const organisedData = {
@@ -58,7 +58,7 @@ router.post('/', verifyJWT, async (req, res) => {
     const db = await dbHandler.createConnectionAsync();
 
     try {
-        const query = await dbHandler.createPostQuery(req.body, 'companies');
+        const query = await dbHandler.createUUIDPostQuery(req.body, 'companies');
         console.log(await dbHandler.connectAsync(db))
         const data = await dbHandler.queryAsync(db, query);
         res.status(200).json(data);
@@ -97,10 +97,9 @@ router.delete('/:company_id', verifyJWT, async (req, res) => {
     const db = await dbHandler.createConnectionAsync();
 
     try {
-        const query = `DELETE FROM companies WHERE company_id = ${req.params.company_id}`;
+        const query = `DELETE FROM companies WHERE company_id = '${req.params.company_id}'`;
         console.log(await dbHandler.connectAsync(db))
         const data = await dbHandler.queryAsync(db, query);
-        await dbHandler.queryAsync(db, `ALTER TABLE companies AUTO_INCREMENT=${req.params.company_id}`)
         res.status(200).json(data);
         console.log(await dbHandler.disconnectAsync(db));
     } catch (error) {

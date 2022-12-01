@@ -1,5 +1,7 @@
 const mysql = require('mysql');
 const bcrypt = require('bcrypt');
+const {v4: uuid} = require('uuid');
+
 
 async function createConnectionAsync() {
     return new Promise((resolve, reject) => {
@@ -58,6 +60,24 @@ async function createPostQuery(body, table) {
     })
 }
 
+async function createUUIDPostQuery(body, table) {
+    return new Promise((resolve, reject) => {
+        const id = uuid();
+        let keys;
+        let values;
+        let keyArr = [];
+        let valueArr = [];
+        for (const i in body) {
+            keyArr.push(i);
+            valueArr.push(JSON.stringify(body[i]));
+            keys = `${keyArr.join(',')}`;
+            values = `${valueArr.join(',')}`;
+        }
+        let sql = `INSERT INTO ${table} (${keys},company_id) VALUES (${values}, "${id}" );`;
+        resolve({query: sql, id: id });
+    })
+}
+
 async function createUpdateQuery(body, table, rowID, IdValue) {
     return new Promise((resolve, reject) => {
         let keyArr = [];
@@ -94,5 +114,6 @@ module.exports = {
     queryAsync, 
     createPostQuery,
     createUpdateQuery,
-    hashPass
+    hashPass,
+    createUUIDPostQuery
 }
