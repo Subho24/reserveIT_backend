@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const verifyJWT = require('./middleware/verifyJwt');
+const path = require('path');
 
 const app = express();
 
@@ -12,7 +13,7 @@ const corsConfig = {
 }
 
 app.get('/', (req, res) => {
-    res.send("Welcome to reserveIT backend!!")
+    res.sendFile(path.join(__dirname, 'index.html'))
 })
 
 app.use(cors());
