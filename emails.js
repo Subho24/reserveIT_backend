@@ -22,4 +22,32 @@ function accountRegistered(sendTo, pwd, restaurantName, ) {
     return email;
 }
 
-module.exports = { accountRegistered }
+
+function reservationConfirmed(sendTo, name, people, date, time) {
+
+    const email = {
+        from: 'no-reply@reserveit.se',
+        to: sendTo,
+        subject: 'Reservation Confirmed',
+        text: '',
+        html: `
+        <div style="
+        font-family: sans-serif;
+        text-align: center;
+        width: 90%;
+        margin: auto;
+        background-color: aliceblue;
+        ">
+                <h1>Confirmation</h1>
+                <p>Hello ${name}!</p>
+                <p>Thank you very much for your reservation for ${people} people.<br/>We look forward to your visit on ${date} at ${time}.<br/>For changes, email sam@kaisekimalmo.se</p>
+                <br/>
+                <p>Kind regards<br/>Kaiseki</p>
+            </div>
+        </body>
+        `,
+    };
+    return email;
+}
+
+module.exports = { accountRegistered, reservationConfirmed }
