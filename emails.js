@@ -42,7 +42,7 @@ function reservationConfirmed(sendTo, name, people, date, time) {
                 <p>Hello ${name}!</p>
                 <p>Thank you very much for your reservation for ${people} people.<br/>We look forward to your visit on ${date} at ${time}.<br/>For changes, email sam@kaisekimalmo.se</p>
                 <br/>
-                <p>Kind regards<br/>Kaiseki</p>
+                <p>Kind regards<br/>Kaiseki - Malmö<br/>Address: Stora Nygatan 23<br/>211 37</p>
             </div>
         </body>
         `,
