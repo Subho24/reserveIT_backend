@@ -32,7 +32,7 @@ router.get('/:company_id', verifyJWT, async (req, res) => {
 
     try {
         const query = req.query.custom ? `Select * from bookings Where company_id = '${req.params.company_id}' and ${req.query.custom} = ${req.query.for} Order by booking_date, booking_time` 
-        : `Select * from bookings Where company_id = '${req.params.company_id}' Order by booking_date`;
+        : `Select * from bookings Where company_id = '${req.params.company_id}'`;
         console.log(await dbHandler.connectAsync(db))
         console.log(query);
         const data = await dbHandler.queryAsync(db, query);
