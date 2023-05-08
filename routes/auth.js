@@ -30,7 +30,7 @@ router.post('/', async (req, res) => {
                     user: userName,
                     companyId: data[0].company_id
                 }
-                const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '30m'})
+                const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '12h'})
                 const refToken = jwt.sign(payload, process.env.REF_TOKEN_SECRET, {expiresIn: '12h'})
 
                 res.cookie('jwt', refToken, {

@@ -78,7 +78,7 @@ async function createUUIDPostQuery(body, table) {
     })
 }
 
-async function createUpdateQuery(body, table, rowID, IdValue) {
+async function createUpdateQuery(body, table, rowID, IdValue, rowID2, Idvalue2) {
     return new Promise((resolve, reject) => {
         let keyArr = [];
         let valueArr = [];
@@ -93,7 +93,8 @@ async function createUpdateQuery(body, table, rowID, IdValue) {
             }
             sql += `${keyArr[i]}=${valueArr[i]}${i === keyArr.length - 1 ? '' : keyArr.length === 2 && keyArr.includes(rowID) ? "" : ","} `;
         }
-        sql += `WHERE ${rowID} = '${IdValue}';`;
+        sql += `WHERE ${rowID} = '${IdValue}' AND `
+        sql += rowID2 ? `${rowID2} = '${Idvalue2}';` : '';
         resolve(sql);
     })
 }
