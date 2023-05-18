@@ -55,7 +55,7 @@ async function createPostQuery(body, table) {
             keys = `${keyArr.join(',')}`;
             values = `${valueArr.join(',')}`;
         }
-        let sql = `INSERT INTO ${table} (${keys}, booked_time) VALUES (${values}, LOCALTIMESTAMP());`;
+        let sql = `INSERT INTO ${table} (${keys}${table === 'bookings' ? ', booked_time' : ''}) VALUES (${values}${table === 'bookings' ? ', LOCALTIMESTAMP()' : ''});`;
         resolve(sql);
     })
 }

@@ -29,5 +29,6 @@ app.use('/api/register', require('./routes/register'));
 app.use('/api/companies', require('./routes/companies'));
 app.use('/api/booking_instructions', require('./routes/bookingInstructions'));
 app.use('/api/bookings', require('./routes/bookings'));
+app.use('/api/booking_settings', require('./routes/bookingSettings'));
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
