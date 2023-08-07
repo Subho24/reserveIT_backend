@@ -1,6 +1,6 @@
 function accountRegistered(sendTo, pwd, restaurantName, ) {
     const email = {
-        from: 'no-reply@reserveit.se',
+        from: 'noreply@reserveit.se',
         to: sendTo,
         subject: 'Account Created',
         text: '',
@@ -26,11 +26,13 @@ function accountRegistered(sendTo, pwd, restaurantName, ) {
 function reservationConfirmed(sendTo, name, people, date, time) {
 
     const email = {
-        from: 'no-reply@reserveit.se',
+        from: 'noreply@reserveit.se',
         to: sendTo,
         subject: 'Reservation Confirmed',
         text: '',
         html: `
+        <html>
+        <body>
         <div style="
         font-family: sans-serif;
         text-align: center;
@@ -45,6 +47,7 @@ function reservationConfirmed(sendTo, name, people, date, time) {
                 <p>Kind regards<br/>Kaiseki - Malmö<br/>Address: Stora Nygatan 23<br/>211 37</p>
             </div>
         </body>
+        </html>
         `,
     };
     return email;

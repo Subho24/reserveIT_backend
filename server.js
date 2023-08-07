@@ -30,5 +30,7 @@ app.use('/api/companies', require('./routes/companies'));
 app.use('/api/booking_instructions', require('./routes/bookingInstructions'));
 app.use('/api/bookings', require('./routes/bookings'));
 app.use('/api/booking_settings', require('./routes/bookingSettings'));
+app.use('/api/employee', require('./routes/employee'));
+app.use('/api/employee_punches', require('./routes/employeePunches'));
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
