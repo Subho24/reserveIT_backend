@@ -15,11 +15,6 @@ let transporter = nodemailer.createTransport({
     auth: {
         user: process.env.Email,
         pass: process.env.Pass,
-    },
-    dkim: {
-        domainName: "reserveit.se",
-        keySelector: "key001",
-        privateKey: "-----BEGIN RSA PRIVATE KEY-----MIICXQIBAAKBgQDIf5KAzeiCS11zwFFOXsaQ0Ikz5//juYtb9tHv7Q005fiG6skvQ/Ff5J+l+j5d2p7skfizsvgX3bKbXSoeYg5PNIOF/c+e8O/isXXcx2jyueVvEHskhF4GTKYv7dmZc0kXjqRLrKOmGOQf0Fd4eekF0Rs+IGOBx3uM/lAV5l+cGQIDAQABAoGAI/+710KhR5uuiNT0BEVCE8hNijNSn5m16uozIYgHggL0j4ziWIkzcotDGvMGdaWGOWWwKNuubeKRahHdOR1UAhVJNGM1wxY2eT7D7U6enkeF30VGiDuk6Gd72dF16GOanpAdADw0IrTCmHbCdnnRUvxlVz2aNVDBW/+9aQw84LECQQDjv3aY7bDxSnqCiPmNykdeIOveQ4YQ6t5duWhEFNVJg63HxgQMIU6JqNzKK74NOEpvvNBAEeMS/eAKQeBt2O4dAkEA4V7ALB5Wxl9uNFa6T/bvRuD5N8qAtP8yXhdfAt1JzDMO/vE+RH74yy8NTSlUeJLHTv/5Pq9/cVwXDdPBegz1LQJBAJ7H7qxiEtm23kDBtJLJMwaKF0fHdeG3jb50NCA7EhSFzJOaF1pJolLROtVst7zJwQOz9NCmZ9Tm0Nr14L1U33UCQQCMJVG3nb40ac+sOGpvo400NF6F9SWIaFG39SyeKWHk27NtkjM4gQTRxRaubw8aU5whYkhqVNQZeDzV2mKsNTaZAkAN3J1e5yG7QuAoNWafcnuXrgT1nj2O9TmAO7RVSh3kiQImk/t+qh+Ndm73H0r37ITnyR4aZZQiSOtVgrWWkKQX-----END RSA PRIVATE KEY-----"
     }
 })
 
