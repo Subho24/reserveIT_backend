@@ -11,10 +11,15 @@ require('dotenv').config();
 let transporter = nodemailer.createTransport({
     host: 'smtp.simply.com',
     port: 587,
-    secure: true,
+    secure: false,
     auth: {
         user: process.env.Email,
         pass: process.env.Pass,
+    },
+    dkim: {
+        domainName: "reserveit.se",
+        keySelector: "key001",
+        privateKey: process.env.DKIM_Private_Key
     }
 })
 
@@ -49,13 +54,13 @@ router.get('/:company_id', verifyJWT, async (req, res) => {
 
 //Post data to bookings table http://localhost:4000/api/bookings
 router.post('/', async (req, res) => {
-    // const db = await dbHandler.createConnectionAsync();
+    const db = await dbHandler.createConnectionAsync();
 
     try {
         const info = req.body;
-        // const query = await dbHandler.createPostQuery(req.body, 'bookings');
-        // console.log(await dbHandler.connectAsync(db))
-        // const data = await dbHandler.queryAsync(db, query);
+        const query = await dbHandler.createPostQuery(req.body, 'bookings');
+        console.log(await dbHandler.connectAsync(db))
+        const data = await dbHandler.queryAsync(db, query);
         const email = mailTmp.reservationConfirmed(info.customer_email, info.customer_name, info.number_of_people, info.booking_date, info.booking_time,info.company_name);
         
         transporter.sendMail(email, (err, info) => {
@@ -64,7 +69,7 @@ router.post('/', async (req, res) => {
             res.status(200).json({data: 'data'});
         })
         
-        // console.log(await dbHandler.disconnectAsync(db));
+        console.log(await dbHandler.disconnectAsync(db));
     } catch (error) {
         console.log(error.message)
         console.log(error)
