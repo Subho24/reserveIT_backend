@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const mysql = require("mysql2");
 const bcrypt = require('bcrypt');
 const {v4: uuid} = require('uuid');
 
@@ -8,8 +8,8 @@ async function createConnectionAsync() {
         const db = mysql.createConnection({
             host: process.env.DB_HOST,
             user: process.env.DB_USER,
-            password: process.env.DB_PASS,
             database: process.env.DB_DATABASE,
+            password: process.env.DB_PASS,
             multipleStatements: true,
         });
         resolve(db);

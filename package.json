@@ -20,6 +20,7 @@
     "ical-generator": "^4.0.0",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
+    "mysql2": "^3.14.1",
     "nodemailer": "^6.7.2",
     "nodemon": "^2.0.20",
     "openai": "^4.12.4",

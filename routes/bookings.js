@@ -62,12 +62,15 @@ router.post('/', async (req, res) => {
         console.log(await dbHandler.connectAsync(db))
         const email = mailTmp.reservationConfirmed(info.customer_email, info.customer_name, info.number_of_people, info.booking_date, info.booking_time,info.company_name);
         
-        transporter.sendMail(email, async (err, info) => {
-            if(err) throw err;
+        // transporter.sendMail(email, async (err, info) => {
+        //     if(err) throw err;
+        //     const data = await dbHandler.queryAsync(db, query);
+        //     console.log(info)
+        //     res.status(200).json({data: data});
+        // })
+
             const data = await dbHandler.queryAsync(db, query);
-            console.log(info)
             res.status(200).json({data: data});
-        })
         
         console.log(await dbHandler.disconnectAsync(db));
     } catch (error) {

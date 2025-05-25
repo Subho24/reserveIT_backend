@@ -30,14 +30,16 @@ router.post('/createAccount', async (req, res) => {
             numbers: true
         })
 
+        console.log(password, "pass")
+
         const hash = await dbHandler.hashPass(password, 10)
         let {query, id} = await dbHandler.createUUIDPostQuery(req.body.companyInfo, 'companies');
         console.log(query)
         console.log(await dbHandler.connectAsync(db))
         let data = await dbHandler.queryAsync(db, query);
         data = await dbHandler.queryAsync(db, `Insert Into users (user_name, user_password, company_id, user_created) Value ("${req.body.companyInfo.company_email}", "${hash}", "${id}", CURDATE() )`)
-        const email = mailTmp.accountRegistered(req.body.companyInfo.company_email, password, req.body.companyInfo.company_name)
-        transporter.sendMail(email);
+        // const email = mailTmp.accountRegistered(req.body.companyInfo.company_email, password, req.body.companyInfo.company_name)
+        // transporter.sendMail(email);
 
         res.status(200).json(data);
         console.log(await dbHandler.disconnectAsync(db));
